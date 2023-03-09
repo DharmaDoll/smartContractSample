@@ -1,6 +1,10 @@
 # smartContractSample
 
 ## Prerequirements
+### Install solc and web3.py
+```sh
+pip install py-solc-x web3
+```
 
 ### Install Geth
 ```sh
@@ -13,24 +17,50 @@ sudo apt-get install -y ethereum
 brew update
 brew upgrade
 brew reinstall ethereum
-# For Docker
-docker pull ethereum/client-go
 ``` 
 ### Initializing the Geth Database
 ```sh
-mkdir data_privatenet && cd data_privatenet
-geth --datadir data_privatenet init data_privatenet/genesis.json
-
-# For docker
-docker run -it -p 30303:30303 ethereum/client-go <options> ...
+mkdir data_privatenet 
+geth --datadir data_privatenet init genesis.json
 ```
 
 ### Run Geth 
 ```sh
-geth --networkid 4649 --nodiscover --maxpeers 0 --datadir data_privatenet console 2>> data_privatenet/geth.log
-
-# For docker
-docker run -it -p 30303:30303 ethereum/client-go <options> ...
+geth --networkid 4649 --nodiscover --maxpeers 0 --rpc.enabledeprecatedpersonal --datadir data_privatenet -- console 2>> data_privatenet/geth.log
 ```
 
-### Compile .sol file and Deploy 
+### Account creation and mining on geth console
+```js
+personal.newAccount('a')
+// Required for Linux only?
+//miner.setEtherbase(eth.accounts[0])
+miner.start(1)
+eth.blockNumber
+miner.stop()
+```
+
+## Compile .sol file and Deploy 
+```sh
+./deploy.py data_privatenet/geth.ipc
+```
+
+
+
+
+### Using Docker
+TBC
+```sh
+# mkdir data_privatenet
+
+# # Install and run docker
+# docker pull ethereum/client-go
+# docker run --entrypoint="/bin/sh" --rm -it --name ethereum-node -v ${PWD}:/geth ethereum/client-go
+
+# # In Docker
+
+# # Init the Geth Database
+# geth --datadir geth/data_privatenet init geth/genesis.json
+
+# # Run Geth(Using http server)
+# geth --networkid 4649 --nodiscover --ipcdisable --maxpeers 0 --http --http.addr "localhost" --http.port "8545" --http.api "eth,net,web3,personal" --http.corsdomain "*" --rpc.enabledeprecatedpersonal --datadir geth/data_privatenet console 2>> geth/data_privatenet/geth.log
+```

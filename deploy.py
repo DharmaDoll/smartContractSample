@@ -109,7 +109,7 @@ if __name__ == '__main__':
         print('[-] Make sure GETH is working properly..')
         print('Run `geth --networkid 4649 --nodiscover --maxpeers 0 --datadir data_privatenet console 2>> data_privatenet/geth.log`')
         sys.exit(1)
-    breakpoint()
+
     if not len(w3.geth.personal.list_wallets()):
         print('No Account... Please create account.')
         # todo create newAccount..
@@ -141,7 +141,7 @@ if __name__ == '__main__':
         "nonce": nonce,
         "gasPrice": w3.eth.gas_price,
     }
- 
+
     ContactList = w3.eth.contract(abi=abi, bytecode=bytecode) # geth consoleだと eth.contract(abi).new({from: eth.accounts[0], data: bytecode})でtx送信までやるぽい
     construct_txn = ContactList.constructor().buildTransaction(tx)
     print(json.dumps(abi))
