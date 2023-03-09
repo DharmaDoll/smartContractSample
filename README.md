@@ -26,7 +26,10 @@ geth --datadir data_privatenet init genesis.json
 
 ### Run Geth 
 ```sh
-geth --networkid 4649 --nodiscover --maxpeers 0 --rpc.enabledeprecatedpersonal --datadir data_privatenet -- console 2>> data_privatenet/geth.log
+geth --networkid 4649 --nodiscover --maxpeers 0 --datadir data_privatenet -- console 2>> data_privatenet/geth.log
+
+# Required for Geth/v1.11.4-unstable-e14043db-20230308/linux-amd64/go1.19.1
+# geth --networkid 4649 --nodiscover --maxpeers 0 --rpc.enabledeprecatedpersonal --datadir data_privatenet -- console 2>> data_privatenet/geth.log
 ```
 
 ### Account creation and mining on geth console
@@ -39,7 +42,7 @@ eth.blockNumber
 miner.stop()
 ```
 
-## Compile .sol file and Deploy 
+## Compile .sol file and Deploy to private net
 ```sh
 ./deploy.py data_privatenet/geth.ipc
 ```
