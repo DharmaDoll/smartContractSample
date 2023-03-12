@@ -96,9 +96,8 @@ def compile_solidity(f) -> tuple:
 if __name__ == '__main__':
     
     ######## Connect Blockchain ############
-    try:
-        w3 = Web3(Web3.IPCProvider(ipc_path))
-    except FileNotFoundError:
+    w3 = Web3(Web3.IPCProvider(ipc_path))
+    if not w3.isConnected():
         print('[-] Make sure GETH is working properly..')
         print('Run `geth --networkid 4649 --nodiscover --maxpeers 0 --datadir data_privatenet console 2>> data_privatenet/geth.log`')
         sys.exit(1)
@@ -112,10 +111,13 @@ if __name__ == '__main__':
  
 
 
+
     ######## Compile contract(.sol file) ############
     print(f'[+] Compile and Deploy started `{solididy_path}`\n')
     abi, bytecode = compile_solidity(solididy_path)
     # compiled_sol :dict = compile_solidity(solididy_path)
+    print(f'abi is: \n{json.dumps(abi)}\n')
+
 
 
 
@@ -138,7 +140,7 @@ if __name__ == '__main__':
 
     contract = w3.eth.contract(abi=abi, bytecode=bytecode) # geth consoleだと eth.contract(abi).new({from: eth.accounts[0], data: bytecode})でtx送信までやるぽい
     constructor_txn: dict = contract.constructor().buildTransaction(tx)
-    # print(json.dumps(abi, indent=2))
+
 
 
     ####### Send(Deploy) the transaction #########
