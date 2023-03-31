@@ -44,7 +44,7 @@ miner.stop()
 
 ## Compile .sol file and Deploy to private net
 ```sh
-./compile_deploy_contract.py  data_privatenet/geth.ipc ContactList.sol
+./compile_deploy_contract.py data_privatenet/geth.ipc ContactList.sol
 
 # Check contracts address and abi.
 
@@ -53,6 +53,10 @@ miner.stop()
 
 ## Invoke smart contracts
 ```sh
+./interact_contract.py 
+# usage: interact_contract.py <ipc path> <contract address> <abi> <called function> <w/readonly> <param('a,b,c...')>
+#   ex.  interact_contract.py ./data_privatenet/geth.ipc '0x54f...' '[{"inputs":...' addContact w 'name,+1234...'
+
 ./interact_contract.py data_privatenet/geth.ipc 0x0957d9733F1F893241B688ac1F393AAbCbAEC7D7 '[{"inputs": [{"internalType"... }]' addContact write 'aa,bb'
 
 # nonce: 2
