@@ -44,11 +44,29 @@ miner.stop()
 
 ## Compile .sol file and Deploy to private net
 ```sh
-./deploy.py data_privatenet/geth.ipc
+./compile_deploy_contract.py  data_privatenet/geth.ipc ContactList.sol
+
+# Check contracts address and abi.
+
 ```
 
 
+## Invoke smart contracts
+```sh
+./interact_contract.py data_privatenet/geth.ipc 0x0957d9733F1F893241B688ac1F393AAbCbAEC7D7 '[{"inputs": [{"internalType"... }]' addContact write 'aa,bb'
 
+# nonce: 2
+# [+] addContact関数を呼びますよ！
+# tx_hash is: 0xfb403c21544e30691affba41d505eea0fe6caaf4ade3207bddf33e0439ac4c5b ...
+
+# ここでもtxを発行して送信するので、eth.pendingTransactions で確認すると未だ取り込まれてないtxが確認できる
+# ここでもminer.start()が必要になる。
+
+./interact_contract.py data_privatenet/geth.ipc 0x0957d9733F1F893241B688ac1F393AAbCbAEC7D7 '[{"inputs": [{"internalType"... }]' retrieve readonly ''
+# nonce: 3
+# [+] retrieve関数を呼びますよ！
+# [('aa', 'bb')]
+```
 
 ### Using Docker
 TBC
