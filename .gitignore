@@ -1,3 +1,7 @@
+data_privatenet/
+compiled_code.json
+node_modules/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -27,8 +31,7 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-data_privatenet/
-compiled_code.json
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

@@ -54,11 +54,12 @@ def compile_solidity(f) -> tuple:
         solidity_code = f.read()
 
     solc_version = check_solc_pragma(solidity_code)
-    
+    # solc_version = '0.8.18'
     compiled = compile_source(
         solidity_code,
         output_values=["abi", "bin"],
-        solc_version=solc_version
+        solc_version=solc_version,
+        base_path='node_modules'
     )
 
     contract_key = [i for i in compiled.keys()]
@@ -141,7 +142,8 @@ if __name__ == '__main__':
     contract = w3.eth.contract(abi=abi, bytecode=bytecode) # geth consoleだと eth.contract(abi).new({from: eth.accounts[0], data: bytecode})でtx送信までやるぽい
     constructor_txn: dict = contract.constructor().buildTransaction(tx)
 
-
+    gas_estimate = contract.constructor().estimateGas()
+    print(gas_estimate)
 
     ####### Send(Deploy) the transaction #########
     # eoa_addressの持ち主が署名後、txを実行し、そのhash値を取得します。

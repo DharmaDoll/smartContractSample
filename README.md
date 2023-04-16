@@ -5,6 +5,10 @@
 ```sh
 pip install py-solc-x web3
 ```
+### Install Open Zeppelin
+```sh
+npm install @openzeppelin/contracts
+```
 
 ### Install Geth
 ```sh
