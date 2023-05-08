@@ -26,12 +26,12 @@ contract Web3Mint is ERC721{
         owner = msg.sender;
     }
 
-    // ユーザーが NFT を取得するために実行する関数です。
+    // ユーザが NFT を取得するために実行する関数です。
     function mintIpfsNFT(
-            string memory name,
-            string memory description,
-            string memory imageURI
-     ) public{
+        string memory name,
+        string memory description,
+        string memory imageURI
+     ) public {
         uint256 newItemId = _tokenIds.current();
         _safeMint(msg.sender, newItemId);
         

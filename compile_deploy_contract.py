@@ -117,7 +117,9 @@ if __name__ == '__main__':
     print(f'[+] Compile and Deploy started `{solididy_path}`\n')
     abi, bytecode = compile_solidity(solididy_path)
     # compiled_sol :dict = compile_solidity(solididy_path)
-    print(f'abi is: \n{json.dumps(abi)}\n')
+    out = open('abi.json','w')
+    out.write(json.dumps(abi))
+    print(f'Output abi file: ./abi.json\n')
 
 
 

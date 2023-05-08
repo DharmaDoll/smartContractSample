@@ -2,12 +2,13 @@
 
 import sys,os
 import re
-    
+import json
+
 from web3 import Web3
 
 if len(sys.argv) < 7:
-	print(f'''usage: {os.path.basename(__file__)} <ipc path> <contract address> <abi> <called function> <w/readonly> <param('a,b,c...')>
-     ex.  {os.path.basename(__file__)} ./data_privatenet/geth.ipc '0x54f...' '[{{"inputs":...' addContact w 'name,+1234...'
+	print(f'''usage: {os.path.basename(__file__)} <ipc path> <contract address> <abi file> <called function> <w/r> <param('a,b,c...')>
+     ex.  {os.path.basename(__file__)} ./data_privatenet/geth.ipc '0x54f...' ./abi.json addContact w 'name,+1234...'
      
      Gethを起動しておき、そのipcのファイルを指定する
      Geth networkのアカウントリストの最初のアカウント情報を使う(eth.accounts[0]) passphraseは'a'
@@ -18,16 +19,16 @@ if len(sys.argv) < 7:
 ipc_path = sys.argv[1]
 contract_address = sys.argv[2]
 try:
-    abi: str = sys.argv[3]
+    with open(sys.argv[3],'r') as f:
+        abi: str = json.loads(f.read())
 except Exception:
      print('Parse error. abi cloud not loaded')
      sys.exit(1)
 called_function_name = sys.argv[4]
-read_only = sys.argv[5]
+tx_type = sys.argv[5]
 param: list = sys.argv[6].split(',')
 
 passphrase = 'a'
-
 
 def get_eoa_address_and_private_key(w3) -> tuple:
     eoa_address = w3.geth.personal.list_wallets()[0].accounts[0].address
@@ -58,7 +59,7 @@ if __name__ == '__main__':
     called_function = contract.functions.__getattribute__(called_function_name)
 
     #txを発行しないread onlyの関数を呼ぶ
-    if read_only == 'readonly':
+    if tx_type == 'r':
     #連絡先を取得する
         print(f'[+] {called_function.fn_name}関数を呼びますよ！\n', called_function().call())
         # print(f'[+] retrieve関数を呼びましたよ！\n', contract.functions.retrieve().call())
